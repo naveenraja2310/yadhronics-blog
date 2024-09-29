@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	MongoClient                *mongo.Client
-	TaskStatus, TaskType, User *mongo.Collection
-	ContextTime                int = 5
+	MongoClient                       *mongo.Client
+	TaskStatus, TaskType, User, Tasks *mongo.Collection
+	ContextTime                       int = 5
 )
 
 func InitDB() error {
@@ -33,6 +33,9 @@ func InitDB() error {
 
 	user := models.User{}
 	User = client.Database("Task_Manegement").Collection(user.TableName())
+
+	task := models.Task{}
+	Tasks = client.Database("Task_Manegement").Collection(task.TableName())
 
 	return nil
 }

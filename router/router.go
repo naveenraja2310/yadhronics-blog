@@ -30,5 +30,12 @@ func GetRouter() *fiber.App {
 	app.Put("/user/:id", controller.UpdateUser)
 	app.Delete("/user/:id", controller.DeleteUser)
 
+	//Task
+	// creating a task
+	app.Post("/task", controller.CreateTask)
+	// get all task for admin
+	app.Get("/user", controller.GetAllUser)
+	// get task by id
+	app.Get("/task/:id", controller.GetTaskById)
 	return app
 }

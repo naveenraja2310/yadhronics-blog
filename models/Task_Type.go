@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// Eg. "Bug", "Feature", "Enhancement"
 type TaskType struct {
 	Id          primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Type        string             `bson:"Type,omitempty" json:"Type,omitempty"`

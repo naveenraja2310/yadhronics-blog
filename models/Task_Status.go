@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// Eg. "Pending", "Completed", "InProgress"
 type TaskStatus struct {
 	Id          primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Name        string             `bson:"Name,omitempty" json:"Name,omitempty"`
