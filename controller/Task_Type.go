@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 	"strconv"
-	"task_management/database"
-	"task_management/models"
-	"task_management/response"
-	"task_management/service"
-	"task_management/utils"
 	"time"
+	"yadhronics-blog/database"
+	"yadhronics-blog/models"
+	"yadhronics-blog/response"
+	"yadhronics-blog/service"
+	"yadhronics-blog/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

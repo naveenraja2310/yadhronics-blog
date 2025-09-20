@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"task_management/database"
-	"task_management/models"
-	"task_management/utils"
+	"yadhronics-blog/database"
+	"yadhronics-blog/models"
+	"yadhronics-blog/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

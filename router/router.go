@@ -1,7 +1,7 @@
 package router
 
 import (
-	"task_management/controller"
+	"yadhronics-blog/controller"
 
 	"github.com/gofiber/fiber/v2"
 )

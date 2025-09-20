@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"task_management/database"
-	"task_management/models"
-	"task_management/utils"
 	"time"
+	"yadhronics-blog/database"
+	"yadhronics-blog/models"
+	"yadhronics-blog/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

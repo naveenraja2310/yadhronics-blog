@@ -8,19 +8,18 @@ import (
 	"yadhronics-blog/models"
 	"yadhronics-blog/response"
 	"yadhronics-blog/service"
-	"yadhronics-blog/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func CreateTask(c *fiber.Ctx) error {
+func CreateBlog(c *fiber.Ctx) error {
 	//creating a context
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(database.ContextTime)*time.Second)
 	defer cancel()
 
 	//parsing a request body
-	var task models.Task
-	if err := c.BodyParser(&task); err != nil {
+	var blog models.Blogs
+	if err := c.BodyParser(&blog); err != nil {
 		return c.Status(http.StatusBadRequest).JSON(response.ErrorResponse{
 			ApiPath:      c.OriginalURL(),
 			ErrorCode:    http.StatusBadRequest,
@@ -30,7 +29,7 @@ func CreateTask(c *fiber.Ctx) error {
 	}
 
 	//saving data in db
-	result, err := service.CreateTask(ctx, task)
+	result, err := service.CreateBlog(ctx, blog)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).JSON(response.ErrorResponse{
 			ApiPath:      c.OriginalURL(),
@@ -43,32 +42,6 @@ func CreateTask(c *fiber.Ctx) error {
 	// Return a success response with the created objectid
 	return c.Status(http.StatusCreated).JSON(response.SuccessResponse{
 		StatusCode:    http.StatusCreated,
-		StatusMessage: "success",
-		Data:          &fiber.Map{"data": result},
-	})
-}
-
-func GetTaskById(c *fiber.Ctx) error {
-	//creating a context
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(database.ContextTime)*time.Second)
-	defer cancel()
-
-	idParam := utils.StringToObjectID(c.Params("id"))
-
-	//fetch data from DB
-	result, err := service.GetTaskByID(ctx, idParam)
-	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(response.ErrorResponse{
-			ApiPath:      c.OriginalURL(),
-			ErrorCode:    http.StatusBadRequest,
-			ErrorMessage: err.Error(),
-			ErrorTime:    time.Now(),
-		})
-	}
-
-	// Return a success response
-	return c.Status(http.StatusOK).JSON(response.SuccessResponse{
-		StatusCode:    http.StatusOK,
 		StatusMessage: "success",
 		Data:          &fiber.Map{"data": result},
 	})
