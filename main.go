@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 	"yadhronics-blog/database"
 	"yadhronics-blog/router"
 	"yadhronics-blog/settings"
@@ -20,9 +22,20 @@ func main() {
 
 	database.InitDB(config)
 	router := router.GetRouter()
-	if err := router.Listen(fmt.Sprintf(":%d", 8733)); err != nil {
-		fmt.Printf("Failed to start server: %v", err)
-	}
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		if err := router.Listen(fmt.Sprintf(":%s", config.AppPort)); err != nil {
+			settings.Log.Fatal(fmt.Sprintf("Failed to start server: %v", err))
+		}
+	}()
+
+	<-quit
+
+	settings.Log.Info("Shutting down server...")
+
 }
 
 func initializeConfig() (settings.Configuration, error) {

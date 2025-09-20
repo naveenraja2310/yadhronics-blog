@@ -1,0 +1,14 @@
+{"level":"info","ts":"2025-09-20T15:48:09.163+0530","caller":"settings/logger.go:63","msg":"Logger initialized","fileName":"yadhronics-blog","maxSize(MB)":1,"maxBackups":3,"maxAge(days)":30,"compress":true,"logLevel":"DEBUG"}
+{"level":"info","ts":"2025-09-20T15:48:09.164+0530","caller":"yadhronics-blogs/main.go:19","msg":"Logger Initialized"}
+{"level":"info","ts":"2025-09-20T15:50:06.274+0530","caller":"settings/logger.go:63","msg":"Logger initialized","fileName":"yadhronics-blog","maxSize(MB)":1,"maxBackups":3,"maxAge(days)":30,"compress":true,"logLevel":"DEBUG"}
+{"level":"info","ts":"2025-09-20T15:50:06.275+0530","caller":"yadhronics-blogs/main.go:21","msg":"Logger Initialized"}
+{"level":"info","ts":"2025-09-20T15:52:30.290+0530","caller":"yadhronics-blogs/main.go:37","msg":"Shutting down server..."}
+{"level":"info","ts":"2025-09-20T15:52:39.530+0530","caller":"settings/logger.go:63","msg":"Logger initialized","fileName":"yadhronics-blog","maxSize(MB)":1,"maxBackups":3,"maxAge(days)":30,"compress":true,"logLevel":"DEBUG"}
+{"level":"info","ts":"2025-09-20T15:52:39.531+0530","caller":"yadhronics-blogs/main.go:21","msg":"Logger Initialized"}
+{"level":"info","ts":"2025-09-20T15:53:55.221+0530","caller":"yadhronics-blogs/main.go:37","msg":"Shutting down server..."}
+{"level":"info","ts":"2025-09-20T15:53:58.548+0530","caller":"settings/logger.go:63","msg":"Logger initialized","fileName":"yadhronics-blog","maxSize(MB)":1,"maxBackups":3,"maxAge(days)":30,"compress":true,"logLevel":"DEBUG"}
+{"level":"info","ts":"2025-09-20T15:53:58.549+0530","caller":"yadhronics-blogs/main.go:21","msg":"Logger Initialized"}
+{"level":"info","ts":"2025-09-20T15:58:26.032+0530","caller":"yadhronics-blogs/main.go:37","msg":"Shutting down server..."}
+{"level":"info","ts":"2025-09-20T15:58:30.758+0530","caller":"settings/logger.go:63","msg":"Logger initialized","fileName":"yadhronics-blog","maxSize(MB)":1,"maxBackups":3,"maxAge(days)":30,"compress":true,"logLevel":"DEBUG"}
+{"level":"info","ts":"2025-09-20T15:58:30.759+0530","caller":"yadhronics-blogs/main.go:21","msg":"Logger Initialized"}
+{"level":"info","ts":"2025-09-20T17:01:37.970+0530","caller":"yadhronics-blogs/main.go:37","msg":"Shutting down server..."}
