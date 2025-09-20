@@ -91,10 +91,28 @@ func DeleteBlog(ctx context.Context, id primitive.ObjectID) error {
 	return nil
 }
 
-func GetAllBlogs(ctx context.Context, limit, offset int64) ([]models.Blogs, int64, error) {
+func GetAllBlogs(ctx context.Context, limit, offset int64, search, category, status string) ([]models.Blogs, int64, error) {
 	var blogs []models.Blogs
 
 	// Define find options for pagination and sorting
+	filter := bson.M{}
+
+	if search != "" {
+		filter["$or"] = []bson.M{
+			{"title": bson.M{"$regex": search, "$options": "i"}},
+			{"description": bson.M{"$regex": search, "$options": "i"}},
+			{"category": bson.M{"$regex": search, "$options": "i"}},
+		}
+	}
+
+	if category != "" {
+		filter["category"] = category
+	}
+
+	if status != "" {
+		filter["status"] = status
+	}
+
 	findOptions := options.Find().SetSort(bson.D{{Key: "created_at", Value: -1}}) // Sort by created_at field, descending
 
 	// Apply limit if it's greater than 0
@@ -107,21 +125,80 @@ func GetAllBlogs(ctx context.Context, limit, offset int64) ([]models.Blogs, int6
 		findOptions.SetSkip(int64(offset))
 	}
 
-	cursor, err := database.Blogs.Find(ctx, bson.M{}, findOptions)
+	// Exclude "content" field from the result
+	findOptions.SetProjection(bson.M{"content": 0})
+
+	cursor, err := database.Blogs.Find(ctx, filter, findOptions)
 	if err != nil {
 		return nil, 0, err
 	}
 	defer cursor.Close(ctx)
 
-	// Decode the users from the cursor
+	// Decode the blogs from the cursor
 	if err = cursor.All(ctx, &blogs); err != nil {
 		return nil, 0, err
 	}
 
-	count, err := database.Blogs.CountDocuments(ctx, bson.M{})
+	count, err := database.Blogs.CountDocuments(ctx, filter)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	return blogs, count, nil
+}
+
+func GetBlogGroup(ctx context.Context, limit, offset int64) ([]bson.M, error) {
+	matchStage := bson.D{
+		{Key: "$match", Value: bson.D{
+			{Key: "status", Value: "published"},
+		}},
+	}
+
+	groupStage := bson.D{
+		{Key: "$group", Value: bson.D{
+			{Key: "_id", Value: "$category"},
+			{Key: "blogs", Value: bson.D{
+				{Key: "$push", Value: bson.D{
+					{Key: "_id", Value: "$_id"},
+					{Key: "title", Value: "$title"},
+					{Key: "thumbnail", Value: "$thumbnail"},
+					{Key: "description", Value: "$description"},
+					{Key: "category", Value: "$category"},
+					{Key: "type", Value: "$type"},
+					{Key: "status", Value: "$status"},
+					{Key: "created_at", Value: "$created_at"},
+					{Key: "updated_at", Value: "$updated_at"},
+				}},
+			}},
+			{Key: "count", Value: bson.D{{Key: "$sum", Value: 1}}},
+		}},
+	}
+
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 1},
+			{Key: "count", Value: 1},
+			{Key: "blogs", Value: bson.D{
+				{Key: "$slice", Value: bson.A{
+					"$blogs",
+					offset, limit,
+				}},
+			}},
+		}},
+	}
+
+	pipeline := mongo.Pipeline{matchStage, groupStage, projectStage}
+
+	cursor, err := database.Blogs.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var results []bson.M
+	if err := cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+
+	return results, nil
 }

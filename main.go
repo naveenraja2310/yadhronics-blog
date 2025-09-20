@@ -44,7 +44,7 @@ func initializeConfig() (settings.Configuration, error) {
 
 func initializeLogger() {
 	settings.InitLogger(
-		"yadhronics-blog",
+		"yadhronics-blog.log",
 		1,
 		3,
 		30,

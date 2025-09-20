@@ -17,10 +17,8 @@ func GetRouter() *fiber.App {
 	app.Post("/blog", controller.CreateBlog)
 	app.Put("/blog/:id", controller.UpdateBlog)
 	app.Get("/blog/:id", controller.GetBlogById)
+	app.Get("/blog", controller.GetAllBlogs)
+	app.Get("/blog-group", controller.GetBlogGroup)
 	app.Delete("/blog/:id", controller.DeleteBlog)
-	// app.Get("/taskstatus/:id", controller.GetTaskStatusById)
-	// app.Get("/taskstatus", controller.GetAllTaskStatus)
-	// app.Put("/taskstatus/:id", controller.UpdateTaskStatus)
-	// app.Delete("/taskstatus/:id", controller.DeleteTaskStatus)
 	return app
 }
