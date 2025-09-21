@@ -45,10 +45,10 @@ func initializeConfig() (settings.Configuration, error) {
 func initializeLogger() {
 	settings.InitLogger(
 		"yadhronics-blog.log",
-		1,
-		3,
-		30,
-		true,
+		1,    // maximum size in MB before log is rotated
+		3,    // maximum number of old log files to retain
+		30,   // maximum number of days to retain old log files
+		true, // whether to compress old log files
 		"DEBUG",
 	)
 }
