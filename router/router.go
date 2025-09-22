@@ -29,6 +29,7 @@ func GetRouter() *fiber.App {
 			}
 			return false
 		},
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 
 	app.Post("/blog", middleware.JWTMiddleware(), controller.CreateBlog)
