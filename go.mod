@@ -3,6 +3,7 @@ module yadhronics-blog
 go 1.23.1
 
 require (
+	github.com/form3tech-oss/jwt-go v3.2.5+incompatible
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.21.0

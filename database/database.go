@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	MongoClient                              *mongo.Client
-	Blogs, TaskStatus, TaskType, User, Tasks *mongo.Collection
-	ContextTime                              int = 5
+	MongoClient       *mongo.Client
+	Blogs, AdminLogin *mongo.Collection
+	ContextTime       int = 5
 )
 
 func InitDB(config settings.Configuration) error {
@@ -26,6 +26,9 @@ func InitDB(config settings.Configuration) error {
 
 	blogs := models.Blogs{}
 	Blogs = client.Database(config.DB_NAME).Collection(blogs.TableName())
+
+	adminlogin := models.Admin{}
+	AdminLogin = client.Database(config.DB_NAME).Collection(adminlogin.TableName())
 
 	return nil
 }

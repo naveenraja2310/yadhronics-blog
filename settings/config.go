@@ -11,10 +11,12 @@ import (
 var Config Configuration
 
 type Configuration struct {
-	DBURI   string `mapstructure:"DB_URI"`
-	DB_NAME string `mapstructure:"DB_NAME"`
-	DB_TIME int    `mapstructure:"DB_TIME"`
-	AppPort string `mapstructure:"APP_PORT"`
+	DBURI          string `mapstructure:"DB_URI"`
+	DB_NAME        string `mapstructure:"DB_NAME"`
+	DB_TIME        int    `mapstructure:"DB_TIME"`
+	JWTSecret      string `mapstructure:"JWT_SECRET"`
+	AppPort        string `mapstructure:"APP_PORT"`
+	AllowedDomains string `mapstructure:"ALLOWED_DOMAINS"`
 }
 
 func InitConfig() (Configuration, error) {
@@ -45,7 +47,7 @@ func InitConfig() (Configuration, error) {
 
 	// Bind sensitive env variables
 	envVars := []string{
-		"DB_URI", "DB_TIME", "APP_PORT", "DB_NAME",
+		"DB_URI", "DB_TIME", "APP_PORT", "DB_NAME", "JWT_SECRET", "ALLOWED_DOMAINS",
 	}
 
 	for _, envVar := range envVars {

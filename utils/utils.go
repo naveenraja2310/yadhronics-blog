@@ -2,7 +2,9 @@ package utils
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -46,4 +48,14 @@ func CheckIfExistsByID(ctx context.Context, collection *mongo.Collection, id pri
 	}
 
 	return true
+}
+
+func ExtractTokenFromCookie(c *fiber.Ctx) (string, error) {
+	// Try retrieving token first
+	if token := c.Cookies("admintoken"); token != "" {
+		return token, nil
+	}
+
+	// If neither cookie is present, return an error
+	return "", fmt.Errorf("cookie is missing")
 }
