@@ -42,6 +42,5 @@ func GetRouter() *fiber.App {
 
 	app.Post("/adminlogin", controller.AdminLogin)
 	app.Get("/adminvalidate", middleware.JWTMiddleware(), controller.AdminValidate)
-	app.Delete("/adminlogout", middleware.JWTMiddleware(), controller.AdminLogout)
 	return app
 }

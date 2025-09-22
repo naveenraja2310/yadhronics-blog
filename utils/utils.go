@@ -50,12 +50,12 @@ func CheckIfExistsByID(ctx context.Context, collection *mongo.Collection, id pri
 	return true
 }
 
-func ExtractTokenFromCookie(c *fiber.Ctx) (string, error) {
-	// Try retrieving token first
-	if token := c.Cookies("admintoken"); token != "" {
+func ExtractTokenFromHeader(c *fiber.Ctx) (string, error) {
+	// Try retrieving token from the Authorization header
+	if token := c.Get("Authorization"); token != "" {
 		return token, nil
 	}
 
 	// If neither cookie is present, return an error
-	return "", fmt.Errorf("cookie is missing")
+	return "", fmt.Errorf("authorization header is missing")
 }

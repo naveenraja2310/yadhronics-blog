@@ -52,29 +52,15 @@ func AdminLogin(c *fiber.Ctx) error {
 		})
 	}
 
-	c.Cookie(&cookie)
-
 	// Return a success response
 	return c.Status(http.StatusOK).JSON(response.SuccessResponse{
 		StatusCode:    http.StatusOK,
 		StatusMessage: "success",
-		Data:          nil,
+		Data:          cookie,
 	})
 }
 
 func AdminValidate(c *fiber.Ctx) error {
-	return c.Status(http.StatusOK).JSON(response.SuccessResponse{
-		StatusCode:    http.StatusOK,
-		StatusMessage: "success",
-		Data:          nil,
-	})
-}
-
-func AdminLogout(c *fiber.Ctx) error {
-	// Clear the JWT cookie
-	cookie := security.ClearJWTCookie(c)
-	c.Cookie(&cookie)
-	// Return a success response
 	return c.Status(http.StatusOK).JSON(response.SuccessResponse{
 		StatusCode:    http.StatusOK,
 		StatusMessage: "success",

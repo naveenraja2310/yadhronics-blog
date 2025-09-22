@@ -6,7 +6,6 @@ import (
 	"yadhronics-blog/settings"
 
 	jwt "github.com/form3tech-oss/jwt-go"
-	"github.com/gofiber/fiber/v2"
 )
 
 var JwtSigningMethod = jwt.SigningMethodHS256
@@ -64,40 +63,16 @@ func Extractclaims(tokenStr string) (*CustomClaims, error) {
 	return claims, nil
 }
 
-func GenerateJWTCookie(email string) (fiber.Cookie, error) {
+func GenerateJWTCookie(email string) (string, error) {
 	customClaims := CustomClaims{
 		Email: email,
 	}
 
 	// generate token
-	generatetoken, expirationTime, jwterr := GenerateJWT(customClaims)
+	generatetoken, _, jwterr := GenerateJWT(customClaims)
 	if jwterr != nil {
-		return fiber.Cookie{}, fmt.Errorf("failed to generate token: %v", jwterr)
+		return "", fmt.Errorf("failed to generate token: %v", jwterr)
 	}
 
-	cookie := fiber.Cookie{
-		Name:     "admintoken",
-		Value:    generatetoken,
-		Expires:  time.Unix(expirationTime.Unix(), 0),
-		MaxAge:   int(time.Until(expirationTime).Seconds()),
-		Path:     "/",
-		HTTPOnly: true,
-		Secure:   true,
-		SameSite: "None",
-	}
-
-	return cookie, nil
-}
-
-func ClearJWTCookie(c *fiber.Ctx) fiber.Cookie {
-	cookie := fiber.Cookie{
-		Name:     "admintoken",
-		Value:    "",
-		Expires:  time.Unix(0, 0),
-		HTTPOnly: true,
-		Secure:   true,
-		SameSite: "None",
-	}
-
-	return cookie
+	return generatetoken, nil
 }

@@ -29,7 +29,7 @@ func VerifyToken(token string) (*UserClaims, error) {
 
 func JWTMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		token, err := utils.ExtractTokenFromCookie(c)
+		token, err := utils.ExtractTokenFromHeader(c)
 		if err != nil {
 			return c.Status(http.StatusUnauthorized).JSON(response.ErrorResponse{
 				ApiPath:      c.OriginalURL(),
