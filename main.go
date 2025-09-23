@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	awssettings "yadhronics-blog/aws-settings"
 	"yadhronics-blog/database"
 	"yadhronics-blog/router"
 	"yadhronics-blog/settings"
@@ -20,7 +21,12 @@ func main() {
 	initializeLogger()
 	settings.Log.Info("Logger Initialized")
 
+	awssettings.InitializeS3Client()
+	settings.Log.Info("AWS S3 Client Initialized")
+
 	database.InitDB(config)
+	settings.Log.Info("Database Connected")
+
 	router := router.GetRouter()
 
 	quit := make(chan os.Signal, 1)

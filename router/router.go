@@ -1,10 +1,8 @@
 package router
 
 import (
-	"strings"
 	"yadhronics-blog/controller"
 	"yadhronics-blog/middleware"
-	"yadhronics-blog/settings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -18,17 +16,7 @@ func GetRouter() *fiber.App {
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(cors.New(cors.Config{
-		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
-		AllowCredentials: true,
-		AllowOriginsFunc: func(origin string) bool {
-			allowedOrigins := strings.Split(settings.Config.AllowedDomains, ",")
-			for _, allowedOrigin := range allowedOrigins {
-				if origin == allowedOrigin {
-					return true
-				}
-			}
-			return false
-		},
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 
@@ -42,5 +30,7 @@ func GetRouter() *fiber.App {
 
 	app.Post("/adminlogin", controller.AdminLogin)
 	app.Get("/adminvalidate", middleware.JWTMiddleware(), controller.AdminValidate)
+	app.Get("/aws/presigned-url", middleware.JWTMiddleware(), controller.AwsPresignedURL)
+
 	return app
 }
