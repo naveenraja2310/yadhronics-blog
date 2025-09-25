@@ -154,6 +154,12 @@ func GetBlogGroup(ctx context.Context, limit, offset int64) ([]bson.M, error) {
 		}},
 	}
 
+	sortBeforeGroup := bson.D{
+		{Key: "$sort", Value: bson.D{
+			{Key: "created_at", Value: -1},
+		}},
+	}
+
 	groupStage := bson.D{
 		{Key: "$group", Value: bson.D{
 			{Key: "_id", Value: "$category"},
@@ -187,7 +193,13 @@ func GetBlogGroup(ctx context.Context, limit, offset int64) ([]bson.M, error) {
 		}},
 	}
 
-	pipeline := mongo.Pipeline{matchStage, groupStage, projectStage}
+	sortStage := bson.D{
+		{Key: "$sort", Value: bson.D{
+			{Key: "_id", Value: 1}, // Sort by category name ascending
+		}},
+	}
+
+	pipeline := mongo.Pipeline{matchStage, sortBeforeGroup, groupStage, projectStage, sortStage}
 
 	cursor, err := database.Blogs.Aggregate(ctx, pipeline)
 	if err != nil {
@@ -201,4 +213,20 @@ func GetBlogGroup(ctx context.Context, limit, offset int64) ([]bson.M, error) {
 	}
 
 	return results, nil
+}
+
+func GetAllCategories(ctx context.Context) ([]string, error) {
+	var categories []string
+
+	distinctValues, err := database.Blogs.Distinct(ctx, "category", bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	for _, value := range distinctValues {
+		if strValue, ok := value.(string); ok {
+			categories = append(categories, strValue)
+		}
+	}
+
+	return categories, nil
 }

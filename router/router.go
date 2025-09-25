@@ -27,6 +27,7 @@ func GetRouter() *fiber.App {
 	app.Get("/blog/:id", controller.GetBlogById)
 	app.Get("/blog", controller.GetAllBlogs)
 	app.Get("/blog-group", controller.GetBlogGroup)
+	app.Get("/blog-category", controller.GetAllCategories)
 
 	app.Post("/adminlogin", controller.AdminLogin)
 	app.Get("/adminvalidate", middleware.JWTMiddleware(), controller.AdminValidate)
