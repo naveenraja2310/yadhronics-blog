@@ -15,7 +15,6 @@ type S3Config struct {
 	Region           string
 	AccessKey        string
 	SecretKey        string
-	DistributionId   string
 	CloudfrontDomain string
 }
 
@@ -84,7 +83,6 @@ func InitConfig() (Configuration, error) {
 		Region:           viper.GetString("AWS_REGION"),
 		AccessKey:        viper.GetString("AWS_ACCESS_KEY"),
 		SecretKey:        viper.GetString("AWS_SECRET_KEY"),
-		DistributionId:   viper.GetString("AWS_DISTRIBUTION_ID"),
 		CloudfrontDomain: viper.GetString("AWS_CLOUDFRONT_DOMAIN"),
 	}
 
