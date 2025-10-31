@@ -30,6 +30,7 @@ func GetRouter() *fiber.App {
 	app.Get("/blog-category", controller.GetAllCategories)
 
 	app.Post("/adminlogin", controller.AdminLogin)
+	app.Post("/createpassword", controller.AdminCreatePassword)
 	app.Get("/adminvalidate", middleware.JWTMiddleware(), controller.AdminValidate)
 	app.Get("/aws/presigned-url", middleware.JWTMiddleware(), controller.AwsPresignedURL)
 
